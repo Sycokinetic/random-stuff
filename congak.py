@@ -1,5 +1,5 @@
 BOWL_INDEX = 6
-pitSet = [4, 4, 4, 4, 4, 4, 0, 5, 5, 5, 5, 5, 5]
+pitSet = [5, 5, 5, 5, 5, 5, 0, 5, 5, 5, 5, 5, 5]
 moveSet = []
 foundMoveSets = []
 
