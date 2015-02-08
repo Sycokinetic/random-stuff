@@ -1,6 +1,7 @@
 BOWL_INDEX = 6
 pitSet = [5, 5, 5, 5, 5, 5, 0, 5, 5, 5, 5, 5, 5]
 moveSet = []
+foundMoveSets = []
 
 def movePit(n, moveArr):
 	numBeads = pitSet[n % len(pitSet)]
@@ -33,8 +34,6 @@ def undoMove():
 	del moveSet[-1]
 	
 def testChain():
-	found = False
-	
 	for i in range(0, BOWL_INDEX):
 		if pitSet[i] == 0:
 			continue
@@ -48,32 +47,33 @@ def testChain():
 		
 		oppPit = len(pitSet) - lastPit - 1
 		bonus = [0, 0]
-		if lastPit == BOWL_INDEX:
-			found = testChain()
+		if lastPit == BOWL_INDEX and pitSet[BOWL_INDEX] < 31:
+			testChain()
 		elif lastPit < BOWL_INDEX and pitSet[lastPit] == 1:
 			bonus = [pitSet[lastPit], pitSet[oppPit]]
 			pitSet[BOWL_INDEX] += bonus[0] + bonus[1]
 			pitSet[oppPit] = 0
 			pitSet[lastPit] = 0
 		
-		if found or pitSet[BOWL_INDEX] >= 31:
-			found = True
-			break
-		else:
-			pitSet[BOWL_INDEX] -= bonus[0] + bonus[1]
-			pitSet[lastPit] += bonus[0]
-			pitSet[oppPit] += bonus[1]
-			undoMove()
-	
-	return found
+		if pitSet[BOWL_INDEX] >= 31:
+			foundMoveSets.append([list(moveSet), pitSet[BOWL_INDEX]])
+		
+		pitSet[BOWL_INDEX] -= bonus[0] + bonus[1]
+		pitSet[lastPit] += bonus[0]
+		pitSet[oppPit] += bonus[1]
+		undoMove()
 	
 def main():
 	found = testChain()
 	choices = []
-	for m in moveSet:
-		choices.append(m[0])
-		
-	print choices
+	for row in foundMoveSets:
+		chain = []
+		for move in row[0]:
+			chain.append(move[0])
+		choices.append([chain, row[1]])
+	
+	for row in choices:
+		print(str(row[1]) + ": " + str(row[0]))
 
 if __name__ == "__main__":
 	main()
