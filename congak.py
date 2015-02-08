@@ -1,5 +1,5 @@
 BOWL_INDEX = 6
-pitSet = [5, 5, 5, 5, 5, 5, 0, 5, 5, 5, 5, 5, 5]
+pitSet = [4, 4, 4, 4, 4, 4, 0, 5, 5, 5, 5, 5, 5]
 moveSet = []
 foundMoveSets = []
 
@@ -72,8 +72,11 @@ def main():
 			chain.append(move[0])
 		choices.append([chain, row[1]])
 	
-	for row in choices:
-		print(str(row[1]) + ": " + str(row[0]))
+	if len(choices) == 0:
+		print("No 1-turn wins found.")
+	else:
+		for row in choices:
+			print(str(row[1]) + ": " + str(row[0]))
 
 if __name__ == "__main__":
 	main()
